@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Making your first Phaser 3 Game - Part 10</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var player;
+var cursors;
+var score = 0;
+var gameOver = false;
+var scoreText;
+
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+    this.load.image('sky', 'assets/sky.png');
+    this.load.image('red', 'assets/red.png');
+}
+
+function create ()
+{
+    //  A simple background for our game
+    this.add.image(400, 300, 'sky');
+
+
+    // The player and its settings
+    player = this.physics.add.sprite(100, 450, 'red');
+
+    //  Player physics properties. Give the little guy a slight bounce.
+
+    player.setCollideWorldBounds(true);
+
+    //  Our player animations, turning, walking left and walking right.
+    cursors = this.input.keyboard.createCursorKeys();
+
+    //  The score
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+
+}
+
+function update ()
+{
+    if (gameOver)
+    {
+        return;
+    }
+
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-100);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(100);
+    }
+    else if (cursors.down.isDown)
+    {
+        player.setVelocityY(100);
+    }
+
+    if (cursors.up.isDown)
+    {
+        player.setVelocityY(-100);
+    }
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
