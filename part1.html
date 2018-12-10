@@ -32,11 +32,14 @@ var config = {
     }
 };
 
+var snake;
 var player;
 var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var direction;            // The direction of our snake.
+var new_direction;
 
 var game = new Phaser.Game(config);
 
@@ -49,6 +52,10 @@ function preload ()
 function create ()
 {
     //  A simple background for our game
+    direction = null;
+    snake = [];
+    new_direction = null;
+
     this.add.image(400, 300, 'sky');
 
 
@@ -75,23 +82,42 @@ function update ()
         return;
     }
 
-    if (cursors.left.isDown)
-    {
-        player.x -=10;
-    }
-    else if (cursors.right.isDown)
-    {
-         player.x +=10;
-    }
-    else if (cursors.down.isDown)
-    {
-         player.y +=10;
-    }
+      if (cursors.right.isDown && direction!='left')
+        {
+            new_direction = 'right';
+        }
+        else if (cursors.left.isDown && direction!='right')
+        {
+            new_direction = 'left';
+        }
+        else if (cursors.up.isDown && direction!='down')
+        {
+            new_direction = 'up';
+        }
+        else if (cursors.down.isDown && direction!='up')
+        {
+            new_direction = 'down';
+        }
 
-    if (cursors.up.isDown)
-    {
-         player.y -=10;
-    }
+
+            if(new_direction){
+                direction = new_direction;
+                new_direction = null;
+            }
+
+            if(direction == 'right'){
+
+                player.x += 5;
+            }
+            else if(direction == 'left'){
+                player.x -= 5;
+            }
+            else if(direction == 'up'){
+                player.y -= 5;
+            }
+            else if(direction == 'down'){
+                player.y += 5;
+            }
 }
 
 
